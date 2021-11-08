@@ -21,6 +21,7 @@ module.exports = {
     "database": `${process.env.DB_NAME_PREFIX}_production`,
     "host": "127.0.0.1",
     "dialect": "postgres",
-	"use_env_variable": "DATABASE_URL"
+	"use_env_variable": "DATABASE_URL",
+	"ssl": true,
   }
 }
