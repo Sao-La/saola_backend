@@ -1,3 +1,5 @@
+'use strict';
+
 exports.statusCode = {
   success: 200,
   bad_request: 400,

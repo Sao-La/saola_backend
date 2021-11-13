@@ -1,3 +1,5 @@
+'use strict';
+
 const errorCodes = {
   // 1xxx: DB error
   create_user_error: 1000,

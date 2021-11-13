@@ -1,3 +1,5 @@
+'use strict';
+
 const { SLError, errorCodes } = require("../utils/error")
 
 exports.isGuest = (req, res, next) => {

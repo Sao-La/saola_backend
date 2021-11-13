@@ -1,5 +1,6 @@
+'use strict';
+
 const express = require('express')
-const { saveUrl, getUrls } = require('./controllers/history')
 
 const app = express()
 require('./routes')(app);
