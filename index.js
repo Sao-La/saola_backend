@@ -1,11 +1,14 @@
+require('dotenv').config({ silent: true })
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const { saveUrl, getUrls } = require('./controllers/history')
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors({ origin: process.env.FRONTEND_ADDRESS }))
 
 // Logger
 app.use(async (req, res, next) => {
