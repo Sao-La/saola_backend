@@ -1,7 +1,8 @@
 'use strict';
 
+require('dotenv').config({ silent: true });
 const { body, validationResult } = require("express-validator");
-const { signIn, updateUser } = require("../controllers/user");
+const { signIn, updateUser, getUserInfo, createUser } = require("../controllers/user");
 const { SLError, errorCodes } = require("../utils/error");
 const { statusCode } = require("../utils/statusCode");
 
@@ -73,12 +74,24 @@ exports.updateUser.validate = [
   .withMessage('is invalid url'),
 ]
 
-exports.getUserInfo = (req, res) => {
+exports.getUserInfo = async (req, res) => {
+  const data = await getUserInfo(req.user);
   return res.status(statusCode.success).json({
     msg: "Get user information successfully",
     code: 0,
-    data: {
-      user: req.user,
-    }
+    data,
+  })
+}
+
+exports.adminCreateUser = async (req, res) => {
+  const { password } = req.body;
+  if (!password || password !== process.env.ADMIN_PASSWORD)
+    throw new SLError(errorCodes.not_authorized);
+
+  const data = await createUser(req.body);
+  return res.status(statusCode.success).json({
+    msg: "Created user successfully",
+    code: 0,
+    data,
   })
 }

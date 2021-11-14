@@ -6,7 +6,7 @@ const { isGuest } = require('../middlewares/isGuest');
 const { isUser } = require('../middlewares/isUser');
 const userAuth = require('../middlewares/userAuth');
 const { errorHandler } = require('../utils/errorHandler');
-const { signIn, updateUser, getUserInfo } = require('./user');
+const { signIn, updateUser, getUserInfo, adminCreateUser } = require('./user');
 const { getProvinces, updateProvinces } = require('./province');
 
 const router = express.Router();
@@ -35,6 +35,10 @@ router.put('/user',
   errorHandler(isUser),
   updateUser.validate,
   errorHandler(updateUser),
+)
+
+router.post('/admin/user',
+  errorHandler(adminCreateUser),
 )
 
 router.get('/report',

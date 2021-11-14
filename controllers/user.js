@@ -1,10 +1,43 @@
 'use strict';
 
 require('dotenv').config({ silent: true });
-const { User } = require('../models');
+const { User, UserStat, AnimalStat } = require('../models');
 const { OAuth2Client } = require('google-auth-library');
 const { SLError, errorCodes } = require('../utils/error');
 const jwt = require('jsonwebtoken');
+
+exports.getUserInfo = async (user) => {
+  try {
+    user = await User.findOne({ where: { email: user.email } });
+  }
+  catch (err) {
+    console.error(err);
+    throw new SLError(errorCodes.read_user_error, err);
+  }
+
+  try {
+    user.userStat = await UserStat.findOne({ where: { user: user.id } });
+  }
+  catch (err) {
+    console.error(err);
+    throw new SLError(errorCodes.read_user_error, err);
+  }
+
+  try {
+    user.animalStats = await Promise.all(user.animalStats.map(animal => new Promise(async resolve => {
+      animal = await AnimalStat.findOne({ where: { id: animal } });
+      return resolve(animal);
+    })));
+  }
+  catch (err) {
+    console.error(err);
+    throw new SLError(errorCodes.read_user_error, err);
+  }
+
+  return {
+    user
+  }
+}
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -35,7 +68,7 @@ exports.userAuthGoogle = async (authPayload) => {
   const user = await User.findOne({ where: { email: payload.email } });
   if (!user) {
     // Register
-    const data = await createUser(userPayload);
+    const data = await this.createUser(userPayload);
     return data;
   }
   else {
@@ -64,15 +97,45 @@ exports.createUser = async (userPayload) => {
   if (user)
     throw new SLError(errorCodes.user_existed);
 
+  let createdUser;
+
   try {
-    const createdUser = await User.create(userPayload);
-    return {
-      user: createdUser,
-    }
+    createdUser = await User.create(userPayload);
   }
   catch(err) {
     console.error(err);
     throw new SLError(errorCodes.create_user_error, err);
+  }
+
+  let createdUserStat;
+
+  try {
+    createdUserStat = await UserStat.create({
+      username: userPayload.email.split('@')[0],
+      user: createdUser.id,
+    });
+  }
+  catch(err) {
+    console.error(err);
+    throw new SLError(errorCodes.create_user_error, err);
+  }
+
+  try {
+    createdUser = await User.update({
+      userStat: createdUserStat.id,
+    }, {
+      where: { id: createdUser.id },
+      raw: true,
+      returning: true,
+    });
+  }
+  catch(err) {
+    console.error(err);
+    throw new SLError(errorCodes.create_user_error, err);
+  }
+
+  return {
+    user: createdUser[1][0],
   }
 }
 

@@ -25,10 +25,19 @@ module.exports = (sequelize, DataTypes) => {
     avt: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: "",
     },
     password: {
       type: DataTypes.STRING,
       defaultValue: "",
+    },
+    userStat: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    animalStats: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: [],
     },
   }, {
     sequelize,
