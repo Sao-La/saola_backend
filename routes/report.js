@@ -73,7 +73,7 @@ exports.createReport = async (req, res) => {
     const errors = validate.array({ onlyFirstError: true });
     throw new SLError(errorCodes.invalid_form_data, errors);
   }
-  
+
   if (!req.file)
     throw new SLError(errorCodes.invalid_form_data, {
       msg: "is required",

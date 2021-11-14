@@ -18,6 +18,8 @@ router.use(errorHandler(userAuth));
 
 // Routes
 
+router.get('/', (req, res) => res.status(200).send('Hi there :D'));
+
 router.post('/signin', 
   errorHandler(isGuest),
   signIn.validate,
