@@ -7,6 +7,7 @@ const { SLError, errorCodes } = require('../utils/error');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
+const axios = require('axios');
 
 /**
  * 
@@ -107,13 +108,22 @@ const upload = multer({
 
 exports.singleUpload = upload.single('img');
 
-exports.uploadReportImg = async (req, res, next) => {
-  try {
-    await this.singleUpload(req, res, next);
-  }
-  catch (err) {
-    console.error(err);
-    throw new SLError(errorCodes.upload_bucket_error, err);
+const instance = axios.create({
+  baseUrl: process.env.EXTRACTOR_ADDRESS,
+  timeout: 5000,
+});
+
+/**
+ * 
+ * @param {String} img Image url
+ * @returns {Object} Content extracted
+ */
+
+exports.getImgExtraction = async (img) => {
+  const content = await instance.get('/?url=' + img);
+  return {
+    img,
+    content,
   }
 }
 

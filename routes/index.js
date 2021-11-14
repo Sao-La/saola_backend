@@ -1,13 +1,12 @@
 'use strict';
 
 const express = require('express');
-const { getUserReports, createReport, getAllReports } = require('./report');
+const { getUserReports, createReport, getAllReports, uploadReportImg } = require('./report');
 const { isGuest } = require('../middlewares/isGuest');
 const { isUser } = require('../middlewares/isUser');
 const userAuth = require('../middlewares/userAuth');
 const { errorHandler } = require('../utils/errorHandler');
 const { signIn, updateUser, getUserInfo } = require('./user');
-const { uploadReportImg } = require('../controllers/report');
 const { getProvinces, updateProvinces } = require('./province');
 
 const router = express.Router();

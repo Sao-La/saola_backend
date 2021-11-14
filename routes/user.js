@@ -70,7 +70,7 @@ exports.updateUser.validate = [
   .withMessage('cannot be blank')
 
   .isURL()
-  .withMessage('is invalid'),
+  .withMessage('is invalid url'),
 ]
 
 exports.getUserInfo = (req, res) => {

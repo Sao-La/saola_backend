@@ -2,7 +2,7 @@
 
 const express = require("express");
 const { validationResult, body } = require("express-validator");
-const { getUserReports, getAllReports, uploadReportImg, createReport } = require("../controllers/report");
+const { getUserReports, getAllReports, uploadReportImg, createReport, getImgExtraction, singleUpload } = require("../controllers/report");
 const { SLError, errorCodes } = require("../utils/error");
 const { statusCode } = require("../utils/statusCode");
 
@@ -47,6 +47,23 @@ exports.getAllReports = async (req, res) => {
  * 
  * @param {express.Request} req 
  * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
+
+exports.uploadReportImg = async (req, res, next) => {
+  try {
+    await singleUpload(req, res, next);
+  }
+  catch (err) {
+    console.error(err);
+    throw new SLError(errorCodes.upload_bucket_error, err);
+  }
+}
+
+/**
+ * 
+ * @param {express.Request} req 
+ * @param {express.Response} res 
  * @returns 
  */
 
@@ -56,7 +73,7 @@ exports.createReport = async (req, res) => {
     const errors = validate.array({ onlyFirstError: true });
     throw new SLError(errorCodes.invalid_form_data, errors);
   }
-
+  
   if (!req.file)
     throw new SLError(errorCodes.invalid_form_data, {
       msg: "is required",
