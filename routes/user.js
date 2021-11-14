@@ -3,7 +3,7 @@
 const { body, validationResult } = require("express-validator");
 const { signIn, updateUser } = require("../controllers/user");
 const { SLError, errorCodes } = require("../utils/error");
-const { statusCode } = require("../utils/statusCodes");
+const { statusCode } = require("../utils/statusCode");
 
 exports.signIn = async (req, res) => {
   const validate = validationResult(req);

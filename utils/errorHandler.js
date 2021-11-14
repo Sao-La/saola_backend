@@ -1,7 +1,7 @@
 'use strict';
 
 const { SLError, errorCodes } = require("./error");
-const { statusCode } = require("./statusCodes");
+const { statusCode } = require("./statusCode");
 
 /**
  * Handles callback and responds errors if any

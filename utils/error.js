@@ -6,6 +6,10 @@ const errorCodes = {
   read_user_error: 1001,
   update_user_error: 1002,
   delete_user_error: 1003,
+  create_report_error: 1004,
+  read_report_error: 1005,
+  update_report_error: 1006,
+  delete_report_error: 1007,
 
   // 2xxx: User input error
   invalid_auth_token: 2000,
@@ -21,6 +25,8 @@ const errorCodes = {
 
   //4xxx: Others
   server_error: 4000,
+  upload_bucket_error: 4001,
+  not_authorized: 4002,
 }
 
 const errorMap = {};
@@ -28,6 +34,10 @@ errorMap[errorCodes.create_user_error] = "Error occured while creating user";
 errorMap[errorCodes.read_user_error] = "Error occured while reading user";
 errorMap[errorCodes.update_user_error] = "Error occured while updating user";
 errorMap[errorCodes.delete_user_error] = "Error occured while deleting user";
+errorMap[errorCodes.create_report_error] = "Error occured while creating report";
+errorMap[errorCodes.read_report_error] = "Error occured while reading report";
+errorMap[errorCodes.update_report_error] = "Error occured while updating report";
+errorMap[errorCodes.delete_report_error] = "Error occured while deleting report";
 
 errorMap[errorCodes.invalid_auth_token] = "Invalid authentication token";
 errorMap[errorCodes.sign_in_already] = "User already signed in";
@@ -40,6 +50,8 @@ errorMap[errorCodes.login_failed] = "Email or password is incorrect";
 errorMap[errorCodes.invalid_jwt_token] = "Invalid session";
 
 errorMap[errorCodes.server_error] = "Server encountered an undefined error";
+errorMap[errorCodes.upload_bucket_error] = "Error while uploading image";
+errorMap[errorCodes.not_authorized] = "User is not allowed to use this method";
 
 
 class SLError extends Error {

@@ -101,6 +101,7 @@ exports.signIn = async(userPayload) => {
   if (user.password !== hash(userPayload.password))
     throw new SLError(errorCodes.login_failed);
   
+  delete user.id;
   delete user.password;
 
   return {

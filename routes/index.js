@@ -1,11 +1,13 @@
 'use strict';
 
 const express = require('express');
+const { getUserReports, createReport, getAllReports } = require('./report');
 const { isGuest } = require('../middlewares/isGuest');
 const { isUser } = require('../middlewares/isUser');
 const userAuth = require('../middlewares/userAuth');
 const { errorHandler } = require('../utils/errorHandler');
 const { signIn, updateUser, getUserInfo } = require('./user');
+const { uploadReportImg } = require('../controllers/report');
 
 const router = express.Router();
 
@@ -17,18 +19,36 @@ router.use(errorHandler(userAuth));
 // Routes
 
 router.post('/signin', 
-  [errorHandler(isGuest), signIn.validate],
+  errorHandler(isGuest),
+  signIn.validate,
   errorHandler(signIn),
 )
 
 router.get('/user', 
-  [errorHandler(isUser)],
+  errorHandler(isUser),
   errorHandler(getUserInfo),
 )
 
 router.put('/user', 
-  [errorHandler(isUser), updateUser.validate],
+  errorHandler(isUser),
+  updateUser.validate,
   errorHandler(updateUser),
+)
+
+router.get('/report',
+  errorHandler(isUser),
+  errorHandler(getUserReports),
+)
+
+router.post('/report',
+  errorHandler(isUser),
+  errorHandler(uploadReportImg),
+  createReport.validate,
+  errorHandler(createReport),
+)
+
+router.get('/admin/report',
+  errorHandler(getAllReports),
 )
 
 /**
