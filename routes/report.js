@@ -50,9 +50,9 @@ exports.getAllReports = async (req, res) => {
  * @param {express.NextFunction} next 
  */
 
-exports.uploadReportImg = async (req, res, next) => {
+exports.uploadReportImg = (req, res, next) => {
   try {
-    await singleUpload(req, res, next);
+    singleUpload(req, res, next);
   }
   catch (err) {
     console.error(err);

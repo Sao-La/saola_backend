@@ -44,7 +44,7 @@ router.get('/report',
 
 router.post('/report',
   errorHandler(isUser),
-  errorHandler(uploadReportImg),
+  uploadReportImg,
   createReport.validate,
   errorHandler(createReport),
 )

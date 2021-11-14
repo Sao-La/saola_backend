@@ -50,7 +50,7 @@ errorMap[errorCodes.delete_province_error] = "Error occured while deleting provi
 errorMap[errorCodes.invalid_auth_token] = "Invalid authentication token";
 errorMap[errorCodes.sign_in_already] = "User already signed in";
 errorMap[errorCodes.not_signed_in] = "User haven't signed in yet";
-errorMap[errorCodes.invalid_auth_token] = "Invalid request data";
+errorMap[errorCodes.invalid_form_data] = "Invalid request data";
 
 errorMap[errorCodes.user_existed] = "User with same information already existed";
 errorMap[errorCodes.user_not_found] = "Cannot find user";
