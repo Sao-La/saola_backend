@@ -8,6 +8,8 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
 const axios = require('axios');
+const child_process = require('child_process');
+const fs = require('fs');
 
 /**
  * 
@@ -161,7 +163,7 @@ exports.createReport = async (user, reportPayload) => {
 exports.extractor = null;
 
 exports.initContentExtractor = () => {
-  this.extractor = child_process.spawn('conda', ['run', '-n', 'saola', '--no-capture-output', 'python3', './extract_info.py'], {
+  this.extractor = child_process.spawn('conda', ['run', '--no-capture-output', '-n', 'saola', 'python3', './extract_info.py'], {
     cwd: '/home/ubuntu/saola_AI',
   });
 
@@ -174,16 +176,15 @@ exports.initContentExtractor = () => {
   });
 }
 
-exports.sendExtractQuery = (report, url) => {
+exports.sendExtractQuery = async (report, url) => {
   if (!this.extractor)
     throw new SLError(errorCodes.extractor_error);
-
-  this.extractor.stdin.write(report + " " + url);
+  await fs.writeFileSync('/home/ubuntu/saola_AI/input', report + " " + url);
 }
 
 const handleExtractorMessage = async (data) => {
-  data = JSON.parse(data);
-  console.log(`Received content of report ${data.report} as: ${data.content}`);
+  data = JSON.parse(data.toString().trim().replace(/'/g, '"'));
+  console.log(`Received content of report ${data.report} as: ${JSON.stringify(data.content)}`);
   try {
     await Report.update({
       content: JSON.stringify(data.content),
