@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       }
     },
+    content: {
+      type: Sequelize.STRING,
+      defaultValue: '',
+    },
   }, {
     sequelize,
     modelName: 'Report',
