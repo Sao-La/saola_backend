@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     content: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       defaultValue: '',
     },
   }, {
