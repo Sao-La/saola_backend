@@ -31,6 +31,7 @@ const errorCodes = {
   server_error: 4000,
   upload_bucket_error: 4001,
   not_authorized: 4002,
+  extractor_error:4003,
 }
 
 const errorMap = {};
@@ -60,6 +61,7 @@ errorMap[errorCodes.invalid_jwt_token] = "Invalid session";
 errorMap[errorCodes.server_error] = "Server encountered an undefined error";
 errorMap[errorCodes.upload_bucket_error] = "Error while uploading image";
 errorMap[errorCodes.not_authorized] = "User is not allowed to use this method";
+errorMap[errorCodes.extractor_error] = "Error while extracting content in image";
 
 
 class SLError extends Error {

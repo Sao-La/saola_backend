@@ -149,9 +149,45 @@ exports.createReport = async (user, reportPayload) => {
     throw new SLError(errorCodes.create_report_error, err);
   }
 
+  this.sendExtractQuery(createdReport.id, reportPayload.img);
+
   // TODO: Update heat map counter
 
   return {
     report: createdReport,
+  }
+}
+
+exports.extractor = null;
+
+exports.initContentExractor = () => {
+  this.extractor = child_process.spawn('conda', ['run', '-n', 'saola', '--no-capture-output', 'python3', '/home/ubuntu/saola_AI/extract_info.py']);
+
+  this.extractor.stdout.on('data', (data) => handleExtractorMessage(data));
+  this.extractor.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+}
+
+exports.sendExtractQuery = (report, url) => {
+  if (!this.extractor)
+    throw new SLError(errorCodes.extractor_error);
+
+  this.extractor.stdin.write(report + " " + url);
+}
+
+const handleExtractorMessage = async (data) => {
+  data = JSON.parse(data);
+  console.log(`Received content of report ${data.report} as: ${data.content}`);
+  try {
+    await Report.update({
+      content: JSON.stringify(data.content),
+    }, {
+      where: { id: parseInt(data.report) },
+    });
+  }
+  catch (err) {
+    console.error(err);
+    throw new SLError(errorCodes.update_report_error, err);
   }
 }
