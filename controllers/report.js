@@ -160,7 +160,7 @@ exports.createReport = async (user, reportPayload) => {
 
 exports.extractor = null;
 
-exports.initContentExractor = () => {
+exports.initContentExtractor = () => {
   this.extractor = child_process.spawn('conda', ['run', '-n', 'saola', '--no-capture-output', 'python3', './extract_info.py'], {
     cwd: '/home/ubuntu/saola_AI',
   });
