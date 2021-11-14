@@ -161,9 +161,14 @@ exports.createReport = async (user, reportPayload) => {
 exports.extractor = null;
 
 exports.initContentExractor = () => {
-  this.extractor = child_process.spawn('conda', ['run', '-n', 'saola', '--no-capture-output', 'python3', '/home/ubuntu/saola_AI/extract_info.py']);
+  this.extractor = child_process.spawn('conda', ['run', '-n', 'saola', '--no-capture-output', 'python3', './extract_info.py'], {
+    cwd: '/home/ubuntu/saola_AI',
+  });
 
   this.extractor.stdout.on('data', (data) => handleExtractorMessage(data));
+  this.extractor.stderr.on('data', (data) => {
+    console.log(`===ERROR===\n${data}\n=======`);
+  });
   this.extractor.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });

@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config({ silent: true });
 const express = require('express');
 const { getUserReports, createReport, getAllReports, uploadReportImg } = require('./report');
 const { isGuest } = require('../middlewares/isGuest');
@@ -8,6 +9,7 @@ const userAuth = require('../middlewares/userAuth');
 const { errorHandler } = require('../utils/errorHandler');
 const { signIn, updateUser, getUserInfo, adminCreateUser } = require('./user');
 const { getProvinces, updateProvinces } = require('./province');
+const cors = require('cors')
 
 const router = express.Router();
 
@@ -15,6 +17,7 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 router.use(errorHandler(userAuth));
+router.use(cors({ origin: process.env.FRONTEND_ADDRESS }))
 
 // Routes
 
