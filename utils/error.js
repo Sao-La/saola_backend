@@ -10,6 +10,10 @@ const errorCodes = {
   read_report_error: 1005,
   update_report_error: 1006,
   delete_report_error: 1007,
+  create_province_error: 1008,
+  read_province_error: 1009,
+  update_province_error: 1010,
+  delete_province_error: 1011,
 
   // 2xxx: User input error
   invalid_auth_token: 2000,
@@ -38,6 +42,10 @@ errorMap[errorCodes.create_report_error] = "Error occured while creating report"
 errorMap[errorCodes.read_report_error] = "Error occured while reading report";
 errorMap[errorCodes.update_report_error] = "Error occured while updating report";
 errorMap[errorCodes.delete_report_error] = "Error occured while deleting report";
+errorMap[errorCodes.create_report_error] = "Error occured while creating province";
+errorMap[errorCodes.read_province_error] = "Error occured while reading province";
+errorMap[errorCodes.update_province_error] = "Error occured while updating province";
+errorMap[errorCodes.delete_province_error] = "Error occured while deleting province";
 
 errorMap[errorCodes.invalid_auth_token] = "Invalid authentication token";
 errorMap[errorCodes.sign_in_already] = "User already signed in";

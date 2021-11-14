@@ -8,6 +8,7 @@ const userAuth = require('../middlewares/userAuth');
 const { errorHandler } = require('../utils/errorHandler');
 const { signIn, updateUser, getUserInfo } = require('./user');
 const { uploadReportImg } = require('../controllers/report');
+const { getProvinces, updateProvinces } = require('./province');
 
 const router = express.Router();
 
@@ -49,6 +50,14 @@ router.post('/report',
 
 router.get('/admin/report',
   errorHandler(getAllReports),
+)
+
+router.get('/province',
+  errorHandler(getProvinces),
+)
+
+router.put('/admin/province', 
+  errorHandler(updateProvinces),
 )
 
 /**
