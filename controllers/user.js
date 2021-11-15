@@ -34,6 +34,8 @@ exports.getUserInfo = async (user) => {
     throw new SLError(errorCodes.read_user_error, err);
   }
 
+  delete user.password;
+
   return {
     user
   }
@@ -157,20 +159,22 @@ const hash = (s) => {
  */
 
 exports.signIn = async(userPayload) => {
-  const user = await User.findOne({ where: { email: userPayload.email }, raw: true });
+  let user = await User.findOne({ where: { email: userPayload.email }, raw: true });
   if (!user)
     throw new SLError(errorCodes.login_failed);
 
   if (user.password !== hash(userPayload.password))
     throw new SLError(errorCodes.login_failed);
   
-  delete user.id;
-  delete user.password;
+  user = (await this.getUserInfo(user)).user;
 
   return {
     user,
     token: jwt.sign(
-      user,
+      {
+        name: user.name,
+        email: user.email,
+      },
       process.env.JWT_SECRET,
       {
         expiresIn: "1w",
