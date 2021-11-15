@@ -88,7 +88,7 @@ exports.userAuthGoogle = async (authPayload) => {
 
 /**
  * 
- * @param {{email: String, name: String, avt: String}} userPayload 
+ * @param {{email: String, name: String, avt: String, password:String}} userPayload 
  * @returns {} Created user info
  */
 

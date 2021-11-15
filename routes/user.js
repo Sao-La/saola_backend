@@ -39,6 +39,44 @@ exports.signIn.validate = [
   .withMessage('is at least 8 characters'),
 ]
 
+exports.signup = async (req, res) => {
+  const validate = validationResult(req);
+  if (!validate.isEmpty()) {
+    const errors = validate.array({ onlyFirstError: true });
+    throw new SLError(errorCodes.invalid_form_data, errors);
+  }
+  
+  const data = await createUser(req.body);
+  return res.status(statusCode.success).json({
+    msg: "Create account successful",
+    code: 0,
+    data,
+  })
+}
+
+exports.signup.validate = [
+  body('email')
+  .exists()
+  .withMessage('is required')
+
+  .isEmail()
+  .withMessage('is invalid'),
+
+  body('name')
+  .trim()
+  .notEmpty()
+  .withMessage('is required'),
+
+  body('password')
+  .exists()
+  .trim()
+  .notEmpty()
+  .withMessage('is required')
+
+  .isLength({ min: 8 })
+  .withMessage('is at least 8 characters'),
+]
+
 exports.updateUser = async (req, res) => {
   const validate = validationResult(req);
   if (!validate.isEmpty()) {
