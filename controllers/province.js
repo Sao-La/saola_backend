@@ -61,16 +61,16 @@ exports.updateProvinces = async (provinces) => {
       if (!_province)
         return resolve(null);
 
-      const updatedProvinces = await Province.update({
+      const updatedProvince = await Province.update({
         count: province.count,
       }, { 
         where: {
           name: province.name,
         },
         returning: true, 
-        raw: true 
       });
-      return resolve(updatedProvinces[1][0]);
+
+      return resolve(updatedProvince[1][0]);
     })));
 
     return {

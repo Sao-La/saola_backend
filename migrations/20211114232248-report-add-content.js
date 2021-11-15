@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.sequelize.transaction(t => {
       return Promise.all([
         queryInterface.addColumn('Reports', 'content', {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(1000),
           defaultValue: '',
         }, {
           transaction: t,
