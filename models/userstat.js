@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   UserStat.init({
     money: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       defaultValue: 0,
     },
     x: {

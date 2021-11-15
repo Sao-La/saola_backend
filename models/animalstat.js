@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   AnimalStat.init({
+    animalID: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     earnRate: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
